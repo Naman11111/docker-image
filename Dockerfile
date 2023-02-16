@@ -1,18 +1,16 @@
-# Base image
-FROM python:3.9
+FROM python:3.8
 
-# Set environment varibles
-ENV PYTHONDONTWRITEBYTECODE 1
-ENV PYTHONUNBUFFERED 1
-
+# set a directory for the app
 WORKDIR /app
 
-COPY requirements.txt /app/requirements.txt
+# copy all the files to the container
+COPY . .
 
-RUN pip install -r /app/requirements.txt
+# install dependencies
+RUN pip install --no-cache-dir -r requirements.txt
 
-COPY . /app
+# tell the port number the container should expose
+EXPOSE 5000
 
-EXPOSE 80
-
-CMD ["uvicorn", "main:app", "--host", "0.0.0.0", "--port", "8000"]
+# run the command
+CMD ["python", "./app.py"]
